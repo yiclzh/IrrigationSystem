@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Schedule</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+</head>
+<body>
+
+<script>
+        $( document ).ready(function() {
+           $("#btnSetSchedule").on("click", function(event) {
+                var minutes = $("#txtMinutes").val();
+                var hour = $('#txtHour').val();
+                var day = $('#txtDay').val();
+
+
+                var selected = [];
+                $('#divDow input:checked').each(function() {
+                    selected.push($(this).attr('value'));
+                });
+
+                var dow = selected.toString();
+
+
+                var checked = [];
+                $('#divMonth input:checked').each(function() {
+                    checked.push($(this).attr('value'));
+                });
+
+                var months = checked.toString();
+
+                var payload = {
+                "minutes": minutes,
+                "hour": hour,
+                "day": day,
+                "dow": dow,
+                "months": months
+                }
+
+                $.ajax({
+                    url: "/get-compare-data",
+                    type: "POST",
+                    data: JSON.stringify(payload),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                }).done(function(data) {
+                    $('#lbResultTypeText').text(data.resultTypeText);
+                });
+           });
+        });
+    </script>
+
+<div class="container" style="padding: 30px;">
+    <div class="row">
+        <div class="col">
+                <span>Minutes: </span>
+               <input type="text" class="edit-control" id="txtMinutes" value="{{ schedule.minute }}">
+        </div>
+        <div class="col">
+            <span>Hour:</span>
+            <input type="text" class="edit-control" id="txtHour" value="{{ schedule.hour }}">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+                <span>Day of the Month: </span>
+                <input type="text" class="edit-control" id="txtDay" value="{{ schedule.day }}">
+        </div>
+        <div class="col" id="divDow">
+            <span>Day of the Week:</span>
+            <input type = "checkbox" id = "txtDOW" name="dow1" value = "MON" {% if schedule.dow.__str__().upper().__contains__('MON'): %} checked {% endif %}>
+            <label for="dow1"> MON</label>
+            <input type="checkbox" id = "txtDOW" name ="dow2" value ="TUE" {% if schedule.dow.__str__().upper().__contains__('TUE'): %} checked {% endif %}>
+            <label for ="dow2"> TUE </label>
+            <input type = "checkbox" id = "txtDOW" name ="dow3" value ="WED" {% if schedule.dow.__str__().upper().__contains__('WED'): %} checked {% endif %}>
+            <label for="dow3"> WED </label>
+            <input type ="checkbox" id ="txtDOW" name ="dow4" value="THU" {% if schedule.dow.__str__().upper().__contains__('THU'): %} checked {% endif %}>
+            <label for="dow4"> THU</label>
+            <input type = "checkbox" id ="txtDOW" name ="dow5" value ="FRI" {% if schedule.dow.__str__().upper().__contains__('FRI'): %} checked {% endif %}>
+            <label for="dow5"> FRI </label>
+            <input type = "checkbox" id = "txtDOW" name = "dow6" value ="SAT" {% if schedule.dow.__str__().upper().__contains__('SAT'): %} checked {% endif %}>
+            <label for="dow6"> SAT </label>
+            <input type = "checkbox" id = "txtDOW" name = "dow7" value = "SUN" {% if schedule.dow.__str__().upper().__contains__('SUN'): %} checked {% endif %}>
+            <label for ="dow7"> SUN </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col" id ="divMonth">
+                <span>Months: </span>
+                <input type = "checkbox" id = "txtMonth" name="monthy1" value = "JAN" {% if schedule.months.__str__().upper().__contains__('JAN'): %} checked {% endif %}>
+            <label for="month1"> January</label>
+            <input type="checkbox" id = "txtMonth" name ="month2" value ="FEB" {% if schedule.months.__str__().upper().__contains__('FEB'): %} checked {% endif %}>
+            <label for ="month2"> February </label>
+            <input type = "checkbox" id = "txtMonth" name ="month3" value ="MAR" {% if schedule.months.__str__().upper().__contains__('MAR'): %} checked {% endif %}>
+            <label for="month3"> March </label>
+            <input type ="checkbox" id ="txtMonth" name ="month4" value="APR" {% if schedule.months.__str__().upper().__contains__('APR'): %} checked {% endif %}>
+            <label for="month4"> April</label>
+            <input type = "checkbox" id ="txtMonth" name ="month5" value ="MAY" {% if schedule.months.__str__().upper().__contains__('MAY'): %} checked {% endif %}>
+            <label for="month5"> May </label>
+            <input type = "checkbox" id = "txtMonth" name = "month6" value="JUN" {% if schedule.months.__str__().upper().__contains__('JUN'): %} checked {% endif %}>
+            <label for="month6"> June </label>
+            <input type="checkbox" id ="txtMonth" name ="month7" value ="JUL" {% if schedule.months.__str__().upper().__contains__('JUL'): %} checked {% endif %}>
+            <label for="month7"> July</label>
+            <input type="checkbox" id ="txtMonth" name="month8" value="AUG" {% if schedule.months.__str__().upper().__contains__('AUG'): %} checked {% endif %}>
+            <label for="month8"> August</label>
+            <input type="checkbox" id="txtMonth" name="month9" value="SEP" {% if schedule.months.__str__().upper().__contains__('SEP'): %} checked {% endif %}>
+            <label for="month9"> September</label>
+            <input type="checkbox" id="txtMonth" name ="month10" value="OCT" {% if schedule.months.__str__().upper().__contains__('OCT'): %} checked {% endif %}>
+            <label for="month10"> October </label>
+            <input type="checkbox" id="txtMonth" name="month11" value="NOV" {% if schedule.months.__str__().upper().__contains__('NOV'): %} checked {% endif %}>
+            <label for="month11"> November</label>
+            <input type="checkbox" id="txtMonth" name="month12" value="DEC" {% if schedule.months.__str__().upper().__contains__('DEC'): %} checked {% endif %}>
+            <label for="month12"> December</label>
+        </div>
+    </div>
+        </div>
+        <div class="col">
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="set-button" id="btnSetSchedule">Save Changes</button>
+        </div>
+    </div>
+</div>
+</head>
+<body>
+
+</body>
+</html>

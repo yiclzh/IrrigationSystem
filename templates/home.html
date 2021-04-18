@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<h1> Irrigation System</h1>
+<p> Keeping grass green since 2021!</p>
+
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
+<script>
+        $(document).ready(function() {
+          $("#btn-on").on("click", function(event) {
+             $.ajax({
+                url: "/irrigation-on",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text"
+             });
+          });
+
+          $("#btn-off").on("click", function(event) {
+             $.ajax({
+                url: "/irrigation-off",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text"
+             });
+          });
+        });
+</script>
+
+<button class="set-button" id="btn-on"> TURN ON</button>
+<button class="set-button" id ="btn-off"> TURN OFF</button>
+
+<div class="col">
+    <div class="row">
+<a href="/schedule">Schedule</a>
+        <div class="col">
+    <div class="row">
+<a href ="/edit_schedule"> Edit Schedule</a>
+
+
+
+</body>
+</html>

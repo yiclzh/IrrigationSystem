@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+</head>
+<body>
+
+<style>
+    table, th, td {
+    border: 1px solid black;
+    font-size: 40px;
+}
+</style>
+
+Current Status: {{ schedule.enabled }}
+
+<table>
+    <tr>
+        <td> Minutes: </td>
+        <td> {{ schedule.minute }}</td>
+    </tr>
+
+    <tr>
+        <td> Hour: </td>
+        <td> {{ schedule.hour }}</td>
+    </tr>
+
+    <tr>
+        <td> Day of the month: </td>
+        <td> {{ schedule.day }}</td>
+    </tr>
+
+    <tr>
+        <td> Day of Week: </td>
+        <td> {{ schedule.dow }}</td>
+    </tr>
+
+    <tr>
+        <td> Months: </td>
+        <td> {{ schedule.months }}</td>
+    </tr>
+</table>
+
+<script>
+        $(document).ready(function() {
+          $("#btn-disable").on("click", function(event) {
+              $.ajax({
+                 url: "/btn-disable-schedule",
+                 type: "POST",
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "text"
+                }).done(function() {
+                    console.log('refresh');
+                    location.reload();
+                 });
+           });
+
+             $("#btn-enable").on("click", function(event) {
+                 $.ajax({
+                    url: "/btn-enable-schedule",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text"
+                 }).done(function() {
+                    console.log('refresh');
+                    location.reload();
+                 });
+             });
+        });
+    </script>
+
+
+<button class="set-button" id="btn-disable"> DISABLE JOB</button>
+
+<button class="set-button" id="btn-enable"> ENABLE JOB</button>
+
+
+
+</body>
+</html>
+
