@@ -2,6 +2,10 @@ from flask import Flask, render_template, request
 import json
 from redis import Redis
 import rq
+from rq import get_current_job
+
+
+from time import sleep
 
 app = Flask(__name__)
 
@@ -59,7 +63,7 @@ def get_enable_schedule():
 @app.route("/irrigation-on", methods=['POST'])
 def irrigation_on():
     redis = Redis.from_url('redis://')
-    job_id = "irrigationid"
+    job_id = "irrigation_on"
     queue = rq.Queue('irrigation-tasks', connection=redis)
     job = queue.fetch_job(job_id)
     if job is None or job.is_finished:
@@ -71,18 +75,19 @@ def irrigation_on():
         print(job)
         return 'ALREADLY RUNNING'
 
+
 @app.route("/irrigation-off", methods=['POST'])
 def irrigation_off():
     redis = Redis.from_url('redis://')
-    job_id = "irrigationid"
+    job_id = "irrigation_on"
     queue = rq.Queue('irrigation-tasks', connection=redis)
     job = queue.fetch_job(job_id)
     if job is None:
-        queue.enqueue('irrigation_off.turning_off', job_id=job_id, )
+        queue.enqueue('irrigation_off.turning_off', job_id="irrigation_off", )
         return 'NO JOB IS RUNNING'
     else:
-
-        queue.enqueue('irrigation_off.turning_off', job_id=job_id, )
-        job.cancel()
+        queue.enqueue('irrigation_off.turning_off', job_id="irrigation_off", )
+        job.meta['canceled'] = True
+        job.save_meta()
         return 'CANCELED AND TURNING OFF'
 

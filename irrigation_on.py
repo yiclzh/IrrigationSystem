@@ -34,6 +34,10 @@ def turning_on() :
 
     # start station 1
     if IS_ON_PI :
+        job.refresh()
+        if job.meta.__contains__("canceled") and job.meta['canceled']:
+            return
+
         GPIO.output( station1, 1 )
 
     sleep(sleep_time)
@@ -47,6 +51,9 @@ def turning_on() :
     sleep(5)
     #Start Station 2
     if IS_ON_PI :
+        job.refresh()
+        if job.meta.__contains__("canceled") and job.meta['canceled']:
+            return
         GPIO.output( station2, 1 )
     sleep( sleep_time )
     if IS_ON_PI :
@@ -58,6 +65,9 @@ def turning_on() :
     sleep(5)
     #Start Station 3
     if IS_ON_PI :
+        job.refresh()
+        if job.meta.__contains__("canceled") and job.meta['canceled']:
+            return
         GPIO.output( station3, 1)
     sleep( sleep_time )
     if IS_ON_PI :
@@ -69,6 +79,9 @@ def turning_on() :
     sleep(5)
     #Start Station 4
     if IS_ON_PI :
+        job.refresh()
+        if job.meta.__contains__("canceled") and job.meta['canceled']:
+            return
         GPIO.output( station4, 1 )
     sleep( sleep_time )
     if IS_ON_PI :
@@ -80,7 +93,9 @@ def turning_on() :
     sleep(5)
     #Start Station 5
     if IS_ON_PI :
-
+        job.refresh()
+        if job.meta.__contains__("canceled") and job.meta['canceled']:
+            return
         GPIO.output( station5, 1 )
     sleep( sleep_time )
     if IS_ON_PI :
