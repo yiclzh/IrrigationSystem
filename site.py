@@ -86,8 +86,9 @@ def irrigation_off():
         queue.enqueue('irrigation_off.turning_off', job_id="irrigation_off", )
         return 'NO JOB IS RUNNING'
     else:
-        queue.enqueue('irrigation_off.turning_off', job_id="irrigation_off", )
         job.meta['canceled'] = True
         job.save_meta()
+        queue.enqueue('irrigation_off.turning_off', job_id="irrigation_off", )
+
         return 'CANCELED AND TURNING OFF'
 
